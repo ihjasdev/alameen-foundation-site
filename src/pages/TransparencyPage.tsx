@@ -155,7 +155,7 @@ const TransparencyPage = () => {
                 <p className="text-muted-foreground text-sm mb-4">{report.type}</p>
                 {report.status === "Available" ? (
                   <a
-                    href={report.year === "2022" ? annualReport2022 : "#"}
+                    href={annualReport2022}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-primary text-sm font-medium hover:underline"
