@@ -18,13 +18,51 @@ const ContactPage = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    // Web3Forms Access Key
+    data.append("access_key", "9a6e13f2-f560-4371-8cfc-c51845709062");
+
+    // Optional: Showing a loading state toast could go here
     toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. We'll get back to you within 24-48 hours.",
+      title: "Sending...",
+      description: "Please wait while we send your message.",
     });
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: data
+      });
+
+      const resData = await response.json();
+
+      if (resData.success) {
+        toast({
+          title: "Message Sent!",
+          description: "Thank you for reaching out. We'll get back to you within 24-48 hours.",
+        });
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+        form.reset();
+      } else {
+        console.error("Web3Forms Error:", resData);
+        toast({
+          variant: "destructive",
+          title: "Error Sending Message",
+          description: resData.message || "Something went wrong. Please try again later.",
+        });
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      toast({
+        variant: "destructive",
+        title: "Network Error",
+        description: "Failed to connect to the server. Please check your internet connection.",
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -111,6 +149,7 @@ const ContactPage = () => {
                     <Label htmlFor="name">Full Name *</Label>
                     <Input
                       id="name"
+                      name="name"
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Your name"
@@ -121,6 +160,7 @@ const ContactPage = () => {
                     <Label htmlFor="email">Email Address *</Label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       value={formData.email}
                       onChange={handleChange}
@@ -135,6 +175,7 @@ const ContactPage = () => {
                     <Label htmlFor="phone">Phone Number</Label>
                     <Input
                       id="phone"
+                      name="phone"
                       type="tel"
                       value={formData.phone}
                       onChange={handleChange}
@@ -145,6 +186,7 @@ const ContactPage = () => {
                     <Label htmlFor="subject">Subject *</Label>
                     <Input
                       id="subject"
+                      name="subject"
                       value={formData.subject}
                       onChange={handleChange}
                       placeholder="How can we help?"
@@ -157,6 +199,7 @@ const ContactPage = () => {
                   <Label htmlFor="message">Your Message *</Label>
                   <Textarea
                     id="message"
+                    name="message"
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Tell us more about your inquiry..."

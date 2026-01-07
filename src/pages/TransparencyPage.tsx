@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Shield, FileText, Users, Building, Award, Download, ExternalLink, CheckCircle, Heart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SectionHeader from "@/components/ui/SectionHeader";
+import annualReport2022 from "@/assets/Annual-Report-2022.pdf";
 
 const TransparencyPage = () => {
   return (
@@ -18,7 +19,7 @@ const TransparencyPage = () => {
               Accountability & Governance
             </h1>
             <p className="text-lg text-primary-foreground/80 leading-relaxed">
-              We believe in complete transparency. Every donation is tracked, 
+              We believe in complete transparency. Every donation is tracked,
               every program is documented, and every decision is made with integrity.
             </p>
           </div>
@@ -92,7 +93,7 @@ const TransparencyPage = () => {
                 <Building className="w-6 h-6 inline-block mr-2 text-primary" />
                 Legal Registration
               </h3>
-              
+
               <div className="space-y-4">
                 <div className="p-4 rounded-lg bg-muted/50">
                   <p className="text-muted-foreground text-sm mb-1">Organization Name</p>
@@ -143,21 +144,27 @@ const TransparencyPage = () => {
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                     <FileText className="w-6 h-6 text-primary" />
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    report.status === "Available" 
-                      ? "bg-primary/10 text-primary" 
-                      : "bg-muted text-muted-foreground"
-                  }`}>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${report.status === "Available"
+                    ? "bg-primary/10 text-primary"
+                    : "bg-muted text-muted-foreground"
+                    }`}>
                     {report.status}
                   </span>
                 </div>
                 <h4 className="font-display text-lg font-semibold text-foreground mb-1">{report.title}</h4>
                 <p className="text-muted-foreground text-sm mb-4">{report.type}</p>
                 {report.status === "Available" ? (
-                  <button className="flex items-center gap-2 text-primary text-sm font-medium hover:underline">
+                  <a
+                    href={report.year === "2022" ? annualReport2022 : "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-primary text-sm font-medium hover:underline"
+                  // Add download attribute if they strictly want to force download, but usually opening in new tab is preferred for viewing.
+                  // The user said "download and open a new window and view", which is satisfied by target="_blank".
+                  >
                     <Download className="w-4 h-4" />
                     Download PDF
-                  </button>
+                  </a>
                 ) : (
                   <span className="text-muted-foreground text-sm">Expected Q2 2024</span>
                 )}
@@ -191,7 +198,7 @@ const TransparencyPage = () => {
                   <span className="font-display text-xl font-bold text-foreground">{item.percentage}%</span>
                 </div>
                 <div className="h-3 rounded-full bg-muted overflow-hidden">
-                  <div 
+                  <div
                     className={`h-full ${item.color} rounded-full transition-all duration-1000`}
                     style={{ width: `${item.percentage}%` }}
                   />
@@ -205,7 +212,7 @@ const TransparencyPage = () => {
               Our Commitment
             </h4>
             <p className="text-muted-foreground">
-              We strive to keep administrative costs below 15% so that the maximum impact 
+              We strive to keep administrative costs below 15% so that the maximum impact
               reaches our beneficiaries. Every rupee counts.
             </p>
           </div>

@@ -22,12 +22,50 @@ const GetInvolvedPage = () => {
     });
   };
 
-  const handleVolunteerSubmit = (e: React.FormEvent) => {
+  const handleVolunteerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    // Web3Forms Access Key for Get Involved Page
+    data.append("access_key", "b56878b4-a4ea-4379-9012-4a799c985840");
+
     toast({
-      title: "Application Received!",
-      description: "We'll be in touch soon to discuss volunteer opportunities.",
+      title: "Sending Application...",
+      description: "Please wait while we submit your details.",
     });
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: data
+      });
+
+      const resData = await response.json();
+
+      if (resData.success) {
+        toast({
+          title: "Application Received!",
+          description: "We'll be in touch soon to discuss volunteer opportunities.",
+        });
+        // Reset form fields if needed, or let the user see what they sent
+        form.reset();
+      } else {
+        console.error("Web3Forms Error:", resData);
+        toast({
+          variant: "destructive",
+          title: "Error Sending Application",
+          description: resData.message || "Something went wrong. Please try again later.",
+        });
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      toast({
+        variant: "destructive",
+        title: "Network Error",
+        description: "Failed to connect to the server. Please check your internet connection.",
+      });
+    }
   };
 
   return (
@@ -44,7 +82,7 @@ const GetInvolvedPage = () => {
               Join Our Mission
             </h1>
             <p className="text-lg text-primary-foreground/80 leading-relaxed">
-              There are many ways to support our cause. Whether through donations, 
+              There are many ways to support our cause. Whether through donations,
               volunteering, or partnerships, your contribution creates real impact.
             </p>
           </div>
@@ -131,7 +169,7 @@ const GetInvolvedPage = () => {
 
             <div className="card-elevated">
               <h3 className="font-display text-2xl font-semibold text-foreground mb-6">Choose Your Contribution</h3>
-              
+
               <form onSubmit={handleDonationSubmit} className="space-y-6">
                 <div>
                   <Label className="mb-3 block">Select Amount (LKR)</Label>
@@ -141,11 +179,10 @@ const GetInvolvedPage = () => {
                         key={amount}
                         type="button"
                         onClick={() => { setDonationAmount(amount); setCustomAmount(""); }}
-                        className={`p-3 rounded-lg border-2 text-center font-semibold transition-colors ${
-                          donationAmount === amount
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border hover:border-primary"
-                        }`}
+                        className={`p-3 rounded-lg border-2 text-center font-semibold transition-colors ${donationAmount === amount
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border hover:border-primary"
+                          }`}
                       >
                         {amount.toLocaleString()}
                       </button>
@@ -224,29 +261,29 @@ const GetInvolvedPage = () => {
 
             <div className="lg:order-1 card-elevated">
               <h3 className="font-display text-2xl font-semibold text-foreground mb-6">Volunteer Application</h3>
-              
+
               <form onSubmit={handleVolunteerSubmit} className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="vol-name">Full Name</Label>
-                    <Input id="vol-name" placeholder="Your name" required />
+                    <Input id="vol-name" name="name" placeholder="Your name" required />
                   </div>
                   <div>
                     <Label htmlFor="vol-phone">Phone Number</Label>
-                    <Input id="vol-phone" type="tel" placeholder="+94 77 XXX XXXX" required />
+                    <Input id="vol-phone" name="phone" type="tel" placeholder="+94 77 XXX XXXX" required />
                   </div>
                 </div>
                 <div>
                   <Label htmlFor="vol-email">Email Address</Label>
-                  <Input id="vol-email" type="email" placeholder="your@email.com" required />
+                  <Input id="vol-email" name="email" type="email" placeholder="your@email.com" required />
                 </div>
                 <div>
                   <Label htmlFor="vol-area">Area of Interest</Label>
-                  <Input id="vol-area" placeholder="e.g., Teaching, Events, Outreach" />
+                  <Input id="vol-area" name="area_of_interest" placeholder="e.g., Teaching, Events, Outreach" />
                 </div>
                 <div>
                   <Label htmlFor="vol-message">Why do you want to volunteer?</Label>
-                  <Textarea id="vol-message" placeholder="Tell us about yourself..." rows={4} />
+                  <Textarea id="vol-message" name="message" placeholder="Tell us about yourself..." rows={4} />
                 </div>
                 <Button type="submit" variant="default" size="lg" className="w-full">
                   <Users className="w-5 h-5" />
