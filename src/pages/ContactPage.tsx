@@ -45,7 +45,7 @@ const ContactPage = () => {
               Get in Touch
             </h1>
             <p className="text-lg text-primary-foreground/80 leading-relaxed">
-              Have questions about our work or want to get involved? 
+              Have questions about our work or want to get involved?
               We'd love to hear from you.
             </p>
           </div>

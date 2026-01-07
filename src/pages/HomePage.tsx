@@ -7,8 +7,11 @@ import heroImage from "@/assets/hero-community.jpg";
 import educationImage from "@/assets/education-support.jpg";
 import foodImage from "@/assets/food-relief.jpg";
 import communityImage from "@/assets/community-empowerment.jpg";
+import { partners } from "@/constants/Partners";
+import LatestPosts from "@/components/home/LatestPosts";
 
 const HomePage = () => {
+  const Partners = partners;
   return (
     <>
       {/* Hero Section */}
@@ -28,14 +31,14 @@ const HomePage = () => {
               <Heart className="w-4 h-4 text-accent" />
               Serving Communities Since 2016
             </div>
-            
+
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight animate-fade-up delay-100">
-              Empowering Communities — 
+              Empowering Communities —
               <span className="text-accent"> Dignity, Education & Relief</span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed animate-fade-up delay-200">
-              Al Ameen Foundation is a registered charity in Kinniya, Sri Lanka, serving underprivileged 
+              Al Ameen Foundation is a registered charity in Kinniya, Sri Lanka, serving underprivileged
               families with education support, essential relief, and community development programs.
             </p>
 
@@ -223,7 +226,7 @@ const HomePage = () => {
             Join Us in Making a Difference
           </h2>
           <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto mb-10">
-            Every contribution, big or small, helps us reach more families in need. 
+            Every contribution, big or small, helps us reach more families in need.
             Your support can transform lives and build stronger communities.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -248,7 +251,7 @@ const HomePage = () => {
         <div className="container container-narrow text-center">
           <Quote className="w-16 h-16 text-primary/20 mx-auto mb-8" />
           <blockquote className="font-display text-2xl md:text-3xl text-foreground leading-relaxed mb-8">
-            "Thanks to Al Ameen Foundation, my children can now go to school with proper books and uniforms. 
+            "Thanks to Al Ameen Foundation, my children can now go to school with proper books and uniforms.
             They gave us hope when we had nothing."
           </blockquote>
           <div>
@@ -257,20 +260,27 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      
+       {/* Latest Posts from Facebook */}
+      <LatestPosts />
 
       {/* Partners */}
       <section className="py-12 border-t border-border">
         <div className="container">
           <p className="text-center text-muted-foreground text-sm mb-8">Trusted by Our Partners & Donors</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60">
-            {["Local Government", "Community Leaders", "International Donors", "Local Businesses", "Volunteers Network"].map((partner, index) => (
-              <span key={index} className="text-muted-foreground font-medium text-sm md:text-base">
-                {partner}
+            {Partners.map((partner, index) => (
+              <span className="flex flex-col items-center">
+                <img src={partner.image} alt={partner.title} className="w-12 h-12 md:w-12 md:h-12" />
+                <p className="text-center text-muted-foreground text-sm mb-8">{partner.title}</p>
+
               </span>
             ))}
           </div>
         </div>
       </section>
+
+     
     </>
   );
 };

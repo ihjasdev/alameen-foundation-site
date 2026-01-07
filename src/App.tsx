@@ -10,6 +10,7 @@ import ProgramsPage from "./pages/ProgramsPage";
 import ImpactPage from "./pages/ImpactPage";
 import GetInvolvedPage from "./pages/GetInvolvedPage";
 import NewsPage from "./pages/NewsPage";
+import NewsDetailPage from "./pages/NewsDetailPage";
 import TransparencyPage from "./pages/TransparencyPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/impact" element={<ImpactPage />} />
             <Route path="/get-involved" element={<GetInvolvedPage />} />
             <Route path="/news" element={<NewsPage />} />
+            <Route path="/news/:id" element={<NewsDetailPage />} />
             <Route path="/transparency" element={<TransparencyPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Route>
